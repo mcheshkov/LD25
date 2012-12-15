@@ -48,12 +48,10 @@ public class Play extends Sprite
 
     var allCont:Sprite;
 
-    var curF:Function;
-    var curT:Number = 0;
-    var curP:Point = new Point(-325,-225);
 
     var currentTime:int;
     var prevTime:int;
+
     var objCont:Sprite;
     var curvCont:Sprite;
     var oldCont:Sprite;
@@ -304,6 +302,11 @@ public class Play extends Sprite
         for (var i=1;i<old.length;i++){
             oldCont.graphics.curveTo(old[i].x + 400,old[i].y+ 300,old[i].x+ 400,old[i].y+ 300);
         }
+    }
+
+    function getCoords(x:Number,y:Number){
+        var res = [];
+        for (var i )
     }
 
     public function onEnterFrame(e:Event){
