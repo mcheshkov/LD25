@@ -3,6 +3,7 @@ package
 import adobe.utils.XMLUI;
 
 import avmplus.typeXml;
+import avmplus.variableXml;
 
 import com.greensock.TweenLite;
 
@@ -84,8 +85,6 @@ public class Play extends Sprite
 
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-
-
         bd = new BitmapData(4,4);
         for (var i=0;i<4;i++)
             for(var j=0;j<4;j++)
@@ -122,7 +121,7 @@ public class Play extends Sprite
         allCont.addChild(tf);
 
         curT = 0;
-        curF = gen(liss,curT,curP);
+        curF = gen(evo_w,curT,curP);
 
         bg();
         tr();
@@ -167,6 +166,9 @@ public class Play extends Sprite
         // entry point
 
         dScan();
+
+
+        //addChild(moveCont);
     }
 
     public function char():void{
@@ -189,8 +191,14 @@ public class Play extends Sprite
         }
     }
 
+    [Embed(source="assets/fon_r.jpg")]
+    public var fon:Class;
+
     public function bg():void{
         var cont:Sprite = new Sprite();
+
+        var bit:Bitmap = new fon();
+        cont.addChild(bit);
 
         cont.graphics.beginFill(0x013662);
         cont.graphics.drawRect(0,0,800,600);
@@ -261,31 +269,31 @@ public class Play extends Sprite
 
 
     public function tr():void{
-        if (contains(curvCont))
-            removeChild(curvCont);
-
-        curvCont = new Sprite();
-
-        curvCont.x = 400;
-        curvCont.y = 300;
-
-        curvCont.graphics.moveTo(curP.x, curP.y);
-        curvCont.graphics.lineStyle(1,0x06aeaf);
-
-        var tt = curT;
-        for (var t=0;t<1000*10;t+=100){
-            var p: Point = curF(curT + t);
-
-            curvCont.graphics.curveTo(p.x,p.y,p.x,p.y);
-        }
-
-        //old.push({x:curF(curT).x,y:curF(curT).y});
-
-        curvCont.filters = [new GlowFilter(0x0dfbeb,0.3,6,6,3)];
-
-        addChild(curvCont);
-
-        //oldTr();
+//        if (contains(curvCont))
+//            removeChild(curvCont);
+//
+//        curvCont = new Sprite();
+//
+//        curvCont.x = 400;
+//        curvCont.y = 300;
+//
+//        curvCont.graphics.moveTo(curP.x, curP.y);
+//        curvCont.graphics.lineStyle(1,0x06aeaf);
+//
+//        var tt = curT;
+//        for (var t=0;t<1000*10;t+=100){
+//            var p: Point = curF(curT + t);
+//
+//            curvCont.graphics.curveTo(p.x,p.y,p.x,p.y);
+//        }
+//
+//        //old.push({x:curF(curT).x,y:curF(curT).y});
+//
+//        curvCont.filters = [new GlowFilter(0x0dfbeb,0.3,6,6,3)];
+//
+//        addChild(curvCont);
+//
+//        //oldTr();
     }
 
     function oldTr(){
@@ -309,14 +317,9 @@ public class Play extends Sprite
         var oldP:Point = curP;
         curP = curF(curT);
         tr();
-        TweenLite.to(objCont,0.1,{x:400+curP.x, y:300+curP.y});
+        TweenLite.to(objCont,0.1,{x:curP.x +400, y:curP.y+300});
 
         for (var i in koridor){
-            trace("INTER");
-            trace(oldP);
-            trace(curP);
-            trace(koridor[i].from);
-            trace(koridor[i].to);
             if (intersect(oldP, curP,koridor[i].from,koridor[i].to)){
                 trace("ALERT");
             }
@@ -349,6 +352,98 @@ public class Play extends Sprite
                 && area(c,d,a) * area(c,d,b) <= 0;
     }
 
+    var move = [];
+    var moveCont:Sprite;
+
+    [Embed(source="assets/map_x.png")]
+    var map_x:Class;
+    var bmp_x:Bitmap = new map_x();
+
+    [Embed(source="assets/map_y.png")]
+    var map_y:Class;
+    var bmp_y:Bitmap = new map_y();
+
+    public function integ(){
+//        var a = [];
+//        var v = [];
+//        var x = [];
+//
+//        for (var i=0;i<0.5;i+=0.001){
+//            x.push(i);
+//            a.push(Math.random());
+//        }
+//
+//        var mu = 1;
+//        for (var i in x){
+//            v.push((a[i] + x[i])/(mu*(1-x[i]*x[i])));
+//        }
+//
+//
+//        var cx = Math.random() * 0.3;
+//
+//
+//        var move = []
+//        for (var i=0;i<100;i++){
+//            move.push(cx);
+//            cx += v[Math.floor(cx/0.001)];
+//        }
+
+        var x = 440;
+        var y = 180;
+        var vx = -2;
+        var vy = 1;
+
+        var ax;
+        var ay;
+
+        var mux = 0.2;
+        var muy = 0.1;
+
+        var bmp_x:Bitmap = new map_x();
+
+
+        for (var i=0;i<600;i++){
+            move.push({x:x, y:y});
+            x += vx;
+            y += vy;
+
+            //v += mu*(1-x*x)*v - x;
+            //vx += 0.1*mux*(1-x*x)*vx - x;
+            vx += (bmp_x.bitmapData.getPixel(x, y) % 256 - 128) * 0.1;
+            vy += (bmp_x.bitmapData.getPixel(y, x) % 256 - 128) * 0.1 ;
+            //vy += Math.random() * 10 - 5;
+        }
+    }
+
+    var xx:Point = new Point(75,37);
+    var v:Point = new Point(0,0);
+
+    function integ_evo():void{
+        xx.x += v.x;
+        xx.y += v.y;
+
+        v.x += (bmp_x.bitmapData.getPixel(xx.x, xx.y) % 256 - 128) * 0.01;
+        v.y += (bmp_y.bitmapData.getPixel(xx.x, xx.y) % 256 - 128) * 0.01;
+
+        if (Math.abs(v.x) > 1 || Math.abs(v.y) > 1){
+            var n:Number = v.x* v.x + v.y* v.y;
+            v.x /= Math.sqrt(n);
+            v.y /= Math.sqrt(n);
+        }
+
+        if (xx.x < 0 || xx.x > 800 || xx.y < 0 || xx.y > 600){
+            v.x = 0;
+            v.y = 0;
+        }
+    }
+
+    function evo_w(t:Number):Point{
+        trace("XX "  + xx);
+        integ_evo();
+        trace(new Point(xx.x, xx.y ));
+        return new Point(xx.x, xx.y);
+    }
+
     public function onKeyDown(e:KeyboardEvent){
         trace(curP);
 
@@ -370,7 +465,14 @@ public class Play extends Sprite
 
         curF = gen(scaleXY(scaleT(ff,stx,sty),ssx, ssy),curT,curP);
         tr();
-        trace(curP);
+
+        trace("kc " + e.keyCode);
+        if (e.keyCode == 37){ // left
+            v.x --;
+        }
+        if (e.keyCode == 39){ // right
+            v.x ++;
+        }
     }
 
 }
