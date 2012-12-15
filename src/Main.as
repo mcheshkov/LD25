@@ -4,7 +4,11 @@ import avmplus.typeXml;
 
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.events.SampleDataEvent;
+import flash.media.Sound;
+import flash.events.MouseEvent;
 import flash.text.TextField;
+import Reverb;
 
 /**
 	 * ...
@@ -13,6 +17,9 @@ import flash.text.TextField;
 	[Frame(factoryClass="Preloader")]
 	public class Main extends Sprite 
 	{
+		
+		
+		private var pl:Player= new Player;
 
 		public function Main():void 
 		{
@@ -31,6 +38,18 @@ import flash.text.TextField;
             tf.y = 100;
             this.addChild(tf);
 			// entry point
+			
+			
+			
+			
+			
+			
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);	
+		}
+		
+		
+		private function onMouseDown(event:Event) {
+			pl.drug();
 		}
 
 	}
