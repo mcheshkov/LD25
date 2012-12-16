@@ -11,6 +11,7 @@ import flash.display.Bitmap;
 
 import flash.display.BitmapData;
 import flash.display.BitmapDataChannel;
+import flash.display.Shader;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -20,6 +21,7 @@ import flash.filters.ColorMatrixFilter;
 import flash.filters.ConvolutionFilter;
 import flash.filters.DisplacementMapFilter;
 import flash.filters.GlowFilter;
+import flash.filters.ShaderFilter;
 import flash.geom.Matrix;
 import flash.geom.Point;
 import flash.text.TextField;
@@ -78,8 +80,17 @@ public class Play extends Sprite
         else addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
+    [Embed(source="scan.pbj", mimeType="application/octet-stream")]
+    var shad:Class;
+    var sss:Shader;
+    var sssF:ShaderFilter;
+
     private function init(e:Event = null):void
     {
+        sss = new Shader(new shad());
+        sss.data.alpha.value = [0.5];
+        sssF = new ShaderFilter(sss);
+        root.filters = [sssF];
 
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
@@ -97,6 +108,7 @@ public class Play extends Sprite
 
         curvCont = new Sprite();
         addChild(curvCont);
+        curvCont.filters = [new GlowFilter(0x0dfbeb,0.3,3,3,4)];
 
         oldCont = new Sprite();
         addChild(oldCont);
@@ -118,8 +130,8 @@ public class Play extends Sprite
         tf.y = 100;
         allCont.addChild(tf);
 
-        curT = 0;
-        curF = gen(evo_w,curT,curP);
+//        curT = 0;
+//        curF = gen(evo_w,curT,curP);
 
         bg();
         tr();
@@ -252,6 +264,28 @@ public class Play extends Sprite
         }
     }
 
+    function ssin():Function{
+        var a = [];
+        var w = [];
+        var p = [];
+        for (var i=0;i<4;i++){
+            a.push(Math.random());
+            w.push(Math.random()*Math.PI);
+            p.push(Math.random() * Math.PI);
+        }
+
+        return function (t:Number):Number{
+            var res:Number = 0;
+            for (var i = 0;i<4;i++){
+                res += a[i] * Math.sin(w[i]*t + p[i]);
+            }
+            return res;
+        }
+    }
+
+    var dir:Point;
+    var ph:Number;
+
     function spir(t:Number){
         var _t = t/5000+15;
         var ee = Math.exp(0.2*_t);
@@ -304,29 +338,93 @@ public class Play extends Sprite
         }
     }
 
-    function getCoords(x:Number,y:Number){
+    function getSpd(x:Point):Point{
+        var res:Point = new Point;
+
+        var fl_x:Number = Math.floor(x.x);
+        var fl_y:Number = Math.floor(x.y);
+
+        var up_x:Number = fl_x + 1;
+        var up_y:Number = fl_y + 1;
+
+        var w_x:Number = x.x - fl_x;
+        var w_y:Number = x.y - fl_y;
+
+        res.x = w_x * (w_y * (bmp_x.bitmapData.getPixel(fl_x,fl_y) % 256 - 128) +
+                (1.0 - w_y) * (bmp_x.bitmapData.getPixel(fl_x,up_y) % 256 - 128)) +
+                (1.0 - w_x) * (w_y * (bmp_x.bitmapData.getPixel(up_x,fl_y) % 256 - 128) +
+                        (1.0 - w_y) * (bmp_x.bitmapData.getPixel(up_x,up_y) % 256 - 128));
+
+        res.y = w_x * (w_y * (bmp_y.bitmapData.getPixel(fl_x,fl_y) % 256 - 128) +
+                (1.0 - w_y) * (bmp_y.bitmapData.getPixel(fl_x,up_y) % 256 - 128)) +
+                (1.0 - w_x) * (w_y * (bmp_y.bitmapData.getPixel(up_x,fl_y) % 256 - 128) +
+                        (1.0 - w_y) * (bmp_y.bitmapData.getPixel(up_x,up_y) % 256 - 128));
+
+
+        var norm:Number = Math.sqrt(res.x * res.x + res.y * res.y);
+
+        res.x /= norm;
+        res.y /= norm;
+
+
+        return res;
+    }
+
+    function getCoords(x:Point):Array{
         var res = [];
-        for (var i )
+        var c:Point = new Point;
+        c.x = x.x;
+        c.y = x.y;
+        trace("co" + c);
+        for (var i=0;i<1000;i++){
+            res.push({x:c.x,y:c.y});
+            c.x += getSpd(c).x ;
+            c.y += getSpd(c).y;
+            trace("ct" + c);
+        }
+        return res;
     }
 
     public function onEnterFrame(e:Event){
+        sss.data.alpha.value = [Math.random()* 0.3 + 0.5];
+        root.filters = [sssF];
+
         currentTime = getTimer();
         var diff = currentTime - prevTime;
 
         prevTime = currentTime;//update for next go around
 
-        curT += diff;
 
-        var oldP:Point = curP;
-        curP = curF(curT);
-        tr();
-        TweenLite.to(objCont,0.1,{x:curP.x +400, y:curP.y+300});
+        var sd:Array = getCoords(xx);
 
-        for (var i in koridor){
-            if (intersect(oldP, curP,koridor[i].from,koridor[i].to)){
-                trace("ALERT");
-            }
+        TweenLite.to(xx,0.1,{x:sd[1].x, y:sd[1].y});
+
+        TweenLite.to(objCont,0.1,{x:sd[1].x, y:sd[1].y});
+
+        curvCont.graphics.lineStyle(2,0x06aeaf);
+        curvCont.graphics.moveTo(sd[0].x,  sd[0].y);
+
+        for (var i in sd) {
+            if (i == 0) continue;
+            if ((sd[0].x - sd[i].x) * (sd[0].x - sd[i].x) +
+                    (sd[0].y - sd[i].y) * (sd[0].y - sd[i].y) > 100) break;
+            curvCont.graphics.lineTo(sd[i].x,  sd[i].y);
+
         }
+
+
+//        curT += diff;
+//
+//        var oldP:Point = curP;
+//        curP = curF(curT);
+//        tr();
+//        TweenLite.to(objCont,0.1,{x:curP.x +400, y:curP.y+300});
+//
+//        for (var i in koridor){
+//            if (intersect(oldP, curP,koridor[i].from,koridor[i].to)){
+//                trace("ALERT");
+//            }
+//        }
     }
 
     function area(a:Point, b:Point, c:Point):Number {
@@ -448,7 +546,7 @@ public class Play extends Sprite
     }
 
     public function onKeyDown(e:KeyboardEvent){
-        trace(curP);
+//        trace(curP);
 
         pla.drug();
         var ff : Function;
@@ -466,10 +564,15 @@ public class Play extends Sprite
         ssy = 0.5 + Math.random() * 1.5;
 
 
-        curF = gen(scaleXY(scaleT(ff,stx,sty),ssx, ssy),curT,curP);
+//        curF = gen(scaleXY(scaleT(ff,stx,sty),ssx, ssy),curT,curP);
         tr();
 
         trace("kc " + e.keyCode);
+
+        //bmp_x.bitmapData.draw()
+
+        //bmp_x.bitmapData.perlinNoise(2,2,2,Math.random(),true,true);
+        //bmp_y.bitmapData.perlinNoise(2,2,2,Math.random(),true,true);
         if (e.keyCode == 37){ // left
             v.x --;
         }
