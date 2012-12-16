@@ -23,6 +23,7 @@ import flash.geom.Point;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.utils.getTimer;
+import flash.events.MouseEvent;
 
 import mx.utils.NameUtil;
 
@@ -35,6 +36,7 @@ import mx.utils.NameUtil;
 public class Main extends Sprite {
 
     public var pl:Play;
+	public var pla:Player = new Player;
 
     public function Main():void {
         if (stage) init();
@@ -43,8 +45,19 @@ public class Main extends Sprite {
 
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
+		stage.addEventListener(MouseEvent.MOUSE_DOWN, drug);
         pl = new Play();
+		
+		
+		
         addChild(pl);
+		
     }
+	private function drug(e:MouseEvent):void {
+		
+		pla.drug();
+		
+		
+	}
 }
 }

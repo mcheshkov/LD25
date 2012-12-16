@@ -9,6 +9,12 @@ package
 		private var R:Number;
 		private var time:Number;
 		private var rev:Reverb = new Reverb;
+		
+		private var mBD:myaBD = new myaBD;
+		private var mHH:myaHH = new myaHH;
+		private var mSD:myaSD = new myaSD;
+		
+		private var seq:Sequence = new Sequence;
 
 		
 		private var loose:Number;
@@ -48,24 +54,40 @@ package
 		
 		private var divisor:Number;
 		
+		var globalLP:LPFilter = new LPFilter;
+		
 		
 		
 		private function oneSample():void
 		{
 			
-			L = 0.1* Math.sin(omega * time) + Math.sin(0.003 * time)+ 0.5* Math.sin(0.01 * time);
+			
+			sequencer();
+			
+			L = 0.1 * Math.sin(omega * time * 0.5) + 0.8 * Math.sin(0.005 * time)+ 0.8 * Math.sin(0.01 * time);
+			
+			
+			L += Math.abs((0.7+Math.sin(omega * (time+1000) * 0.00001)))*1.1
+				*((Math.sin(omega * time * 0.00001) > 0.2)?0.07:0.15) * (mBD.Play() +  0.7 * mHH.Play() + 0.5 * mSD.Play());
+			
 			
 			if (time % divisor == 0) {
 				L = 0.7;
 			//loose -= 0.01*Math.abs(loose);
 			}
-			L += 3*bd.Play();
+			
 			
 			
 			
 			var re:Object = rev.Play(L);
+			
+			
 			R = re.R;
-			L = re.L;			
+			L = re.L;	
+			
+			
+			
+			
 			time++;
 
 		}	
@@ -79,6 +101,8 @@ package
 			loose = 0.9999;
 			bd = new myaHH;
 			
+			seq = Generator.tutstuts();
+			
 			
 			var mySound:Sound = new Sound();
 			mySound.addEventListener(SampleDataEvent.SAMPLE_DATA, synth);
@@ -86,8 +110,58 @@ package
 			
 		}
 		
+		
+		private var playPosition:uint = 0;
+		private var patternNum:int = 0;
+		private var seqLine:int = 0;
+		private var divid:int = 4;
+		
+		private function sequencer():void
+		{
+			if (playPosition == 0) {
+				seqLine = 0;
+				patternNum++;
+				patternNum %= divid;
+				//if (patternNum == 0) bassSeqLine = 0;
+			}
+			if (patternNum == 2) {
+				return;
+			}
+			
+			if (seqLine < seq.seqArray.length)
+			
+			if (seq.seqArray[seqLine].time <= playPosition)
+			{
+				switch (seq.seqArray[seqLine].type)
+				{
+				case InstrumentType.BD_:
+					mBD.Boom(seq.seqArray[seqLine].amp);
+					break;
+				case InstrumentType.SD_:
+					mSD.Boom(seq.seqArray[seqLine].amp);
+					break;
+				case InstrumentType.HH_:
+					mHH.Boom(seq.seqArray[seqLine].amp);
+					break;
+				}
+				seqLine++;
+			}
+			
+/*
+			if (bassSeqLine < bassSeq.seqArray.length)
+			if (bassSeq.seqArray[bassSeqLine].time <= playPosition + patternNum*seq.patternLen)
+			{
+				bass.Boom(bassSeq.seqArray[bassSeqLine].amp, bassSeq.seqArray[bassSeqLine].tone);
+				bassSeqLine++;
+			}
+			*/
+			playPosition++;
+			playPosition %= seq.patternLen;
+		}
+		
 		public function drug():void {
 			divisor = Math.floor(random(200, 1000));
+			rev.randomize();
 			//if (loose < 0.1) {
 			
 			var nu:Number = random(1.01, 2);
@@ -101,7 +175,17 @@ package
 				omega *= nu;
 			}
 			else omega = Math.PI/24;
-			bd.Boom();
+			seq = Generator.tutstuts();
+			
+			playPosition = 0;
+					
+			seqLine = 0;
+			patternNum = 0;
+			
+			mBD.randomize();
+			mSD.randomize();
+			mHH.randomize();
+			//bd.Boom();
 			//	trace("loose:" + loose);
 			//	loose = random(0.999995, 0.99999);
 			//}
