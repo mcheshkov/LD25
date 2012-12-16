@@ -118,8 +118,8 @@ public class Play extends Sprite
         tf.y = 100;
         allCont.addChild(tf);
 
-        curT = 0;
-        curF = gen(evo_w,curT,curP);
+        //curT = 0;
+        //curF = gen(evo_w,curT,curP);
 
         bg();
         tr();
@@ -305,8 +305,8 @@ public class Play extends Sprite
     }
 
     function getCoords(x:Number,y:Number){
-        var res = [];
-        for (var i )
+        //var res = [];
+        //for (var i )
     }
 
     public function onEnterFrame(e:Event){

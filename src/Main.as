@@ -1,57 +1,50 @@
-package 
-{
+package {
+import adobe.utils.XMLUI;
+
 import avmplus.typeXml;
+
+import com.greensock.TweenLite;
+
+import flash.display.Bitmap;
+
+import flash.display.BitmapData;
+import flash.display.BitmapDataChannel;
 
 import flash.display.Sprite;
 import flash.events.Event;
-import flash.events.SampleDataEvent;
-import flash.media.Sound;
-import flash.events.MouseEvent;
+import flash.events.KeyboardEvent;
+import flash.filters.BlurFilter;
+import flash.filters.ColorMatrixFilter;
+import flash.filters.ConvolutionFilter;
+import flash.filters.DisplacementMapFilter;
+import flash.filters.GlowFilter;
+import flash.geom.Matrix;
+import flash.geom.Point;
 import flash.text.TextField;
-import Reverb;
+import flash.text.TextFormat;
+import flash.utils.getTimer;
+
+import mx.utils.NameUtil;
 
 /**
-	 * ...
-	 * @author 
-	 */
-	[Frame(factoryClass="Preloader")]
-	public class Main extends Sprite 
-	{
-		
-		
-		private var pl:Player= new Player;
+ * ...
+ * @author
+ */
+[Frame(factoryClass="Preloader")]
+[SWF(width=800, height=600, backgroundColor=0x888888)]
+public class Main extends Sprite {
 
-		public function Main():void 
-		{
-			if (stage) init();
-			else addEventListener(Event.ADDED_TO_STAGE, init);
-		}
+    public var pl:Play;
 
-		private function init(e:Event = null):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
+    public function Main():void {
+        if (stage) init();
+        else addEventListener(Event.ADDED_TO_STAGE, init);
+    }
 
-
-            var tf:TextField = new TextField();
-            tf.text = "Hi!";
-            tf.x = 100;
-            tf.y = 100;
-            this.addChild(tf);
-			// entry point
-			
-			
-			
-			
-			
-			
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);	
-		}
-		
-		
-		private function onMouseDown(event:Event) {
-			pl.drug();
-		}
-
-	}
-
+    private function init(e:Event = null):void {
+        removeEventListener(Event.ADDED_TO_STAGE, init);
+        pl = new Play();
+        addChild(pl);
+    }
+}
 }
