@@ -1,0 +1,57 @@
+<languageVersion : 1.0;>
+
+kernel ScanLines
+<   namespace : "mesh";
+    vendor : "Mike Chambers";
+    version : 1;
+    description : "GVINETTE TV Scanline effect";
+>
+{
+    input image4 src;
+    output pixel4 dst;
+
+    parameter float h
+    	<
+    		defaultValue : 0.1;
+    		minValue : 0.0;
+    		maxValue : 1.0;
+    		description : "A offset for lines.";
+    	>;
+    	parameter float w
+          	<
+          		defaultValue : 0.1;
+          		minValue : 0.0;
+          		maxValue : 1.0;
+          		description : "A offset for lines.";
+          	>;
+
+    void
+    evaluatePixel()
+    {
+        //get the current pixel
+
+        float v =1.0;
+
+        dst = sampleNearest(src, outCoord());
+
+        float2 coor = outCoord();
+        coor.x *= 3.0;
+        coor.y *= 4.0;
+        coor.x /= 12.0;
+		coor.y /= 12.0;
+        float2 mid = float2(w/8.0,h/6.0);
+
+        v= distance(coor,mid);
+        	v = 1.0-(v*v/(30000.0*(w/800.0))) ;
+			//v *= -0.00002;
+			//v = 1.0+v;
+
+		dst.r *= v;
+
+		dst.g *= v;
+
+		dst.b *= v;
+
+    }
+}
+

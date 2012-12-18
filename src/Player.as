@@ -2,7 +2,10 @@ package
 {
 	import flash.events.SampleDataEvent;
 	import flash.media.Sound;
-	public class Player 
+import flash.utils.setInterval;
+import flash.utils.setTimeout;
+
+public class Player
 	{
 		
 		private var L:Number;
@@ -52,8 +55,8 @@ package
 		
 		private function oneSample():void
 		{
-			
-			L = 0.1* Math.sin(omega * time) + Math.sin(0.003 * time)+ 0.5* Math.sin(0.01 * time);
+
+            L = 0.1 * Math.sin(omega * time * 0.5) + 0.8 * Math.sin(0.005 * time)+ 0.8 * Math.sin(0.01 * time);
 			
 			if (time % divisor == 0) {
 				L = 0.7;
@@ -82,9 +85,17 @@ package
 			
 			var mySound:Sound = new Sound();
 			mySound.addEventListener(SampleDataEvent.SAMPLE_DATA, synth);
-			mySound.play();	
-			
+			mySound.play();
+
+
+            a();
 		}
+
+    function a(){
+         bd.Boom();
+//        rev.randomize();
+        setTimeout(a, Math.random()*15000+3000);
+    }
 		
 		public function drug():void {
 			divisor = Math.floor(random(200, 1000));
@@ -101,7 +112,7 @@ package
 				omega *= nu;
 			}
 			else omega = Math.PI/24;
-			bd.Boom();
+			//bd.Boom();
 			//	trace("loose:" + loose);
 			//	loose = random(0.999995, 0.99999);
 			//}

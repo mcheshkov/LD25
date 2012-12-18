@@ -15,6 +15,13 @@ kernel ScanLines
     	maxValue : 1.0;
     	description : "A coef for lines.";
     >;
+    parameter float offset
+	<
+		defaultValue : 0.1;
+		minValue : 0.0;
+		maxValue : 1.0;
+		description : "A offset for lines.";
+	>;
     output pixel4 dst;
 
     void
@@ -32,8 +39,13 @@ kernel ScanLines
         {
             //if on an even row, set the pixel to blackt
             dst.r *= alpha;
+            dst.r += offset;
+
             dst.b *= alpha;
+            dst.b += offset;
+
             dst.g *= alpha;
+            dst.g += offset	;
 
             //can also do
             ////dst = float4(0.0,0.0,0.0, 1.0);

@@ -8,48 +8,40 @@ kernel ScanLines
 >
 {
     input image4 src;
-    parameter float alpha
+    parameter float or
     <
-    	defaultValue : 0.5;
-    	minValue : 0.0;
+    	defaultValue : 0.0;
+    	minValue : -1.0;
     	maxValue : 1.0;
-    	description : "A coef for lines.";
+    	description : "A red ooffset";
     >;
-    parameter float offset
+    parameter float og
+    <
+    	defaultValue : 0.0;
+    	minValue : -1.0;
+    	maxValue : 1.0;
+    	description : "A green ooffset";
+    >;
+	parameter float ob
 	<
 		defaultValue : 0.1;
-		minValue : 0.0;
+		minValue : -1.0;
 		maxValue : 1.0;
-		description : "A offset for lines.";
+		description : "A blue ooffset";
 	>;
-    output pixel4 dst;
+	output pixel4 dst;
 
     void
     evaluatePixel()
     {
         //get the current pixel
         dst = sampleNearest(src, outCoord());
+		dst.r += or;
 
-        //find out the vertical pixel size. In Flash this will always be 1
-        float pixelVSize = pixelSize(src).y;
+		dst.g += og;
 
-        //pixelVSize / 2.0 - outCoord() gives center of pixel, so we have to adjust to find
-        //center of our pixel
-        if( int( mod(((pixelVSize * outCoord().y) - pixelVSize / 2.0), 2.0 ) ) != 0)
-        {
-            //if on an even row, set the pixel to blackt
-            dst.r *= alpha;
-            dst.r += offset;
+		dst.b += ob;
 
-            dst.b *= alpha;
-            dst.b += offset;
-
-            dst.g *= alpha;
-            dst.g += offset;
-
-            //can also do
-            ////dst = float4(0.0,0.0,0.0, 1.0);
-        }
     }
 }
 
