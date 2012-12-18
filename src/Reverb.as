@@ -54,8 +54,8 @@
 			len2 = randi(4000, 12000);
 			len3 = randi(4000, 12000);
 			len4 = randi(4000, 12000);
-			Alpha = Math.sqrt(random(0.0, 0.95));
-			Beta = random(0.0, 0.3);
+			Alpha = Math.sqrt(random(0.1, 0.95));
+			Beta = random(0.1, 0.2);
 		}
 	}
 

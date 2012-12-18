@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92880241-6af4-4c55-be1d-e4a571218d13" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/vin.pbj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ClickMe.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Man.as" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/vin.pbk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scan.pbj" afterPath="$PROJECT_DIR$/src/scan.pbj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/InstrumentType.as" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Sequence.as" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/SequenceEvent.as" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/myaBD.as" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/myaSD.as" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/sound.as" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/rt.swf" afterPath="$PROJECT_DIR$/bin/rt.swf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.as" afterPath="$PROJECT_DIR$/src/Main.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Play.as" afterPath="$PROJECT_DIR$/src/Play.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Player.as" afterPath="$PROJECT_DIR$/src/Player.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/col.pbk" afterPath="$PROJECT_DIR$/src/col.pbk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scan.pbk" afterPath="$PROJECT_DIR$/src/scan.pbk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obj/rtConfig.old" afterPath="$PROJECT_DIR$/obj/rtConfig.old" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obj/rtConfig.xml" afterPath="$PROJECT_DIR$/obj/rtConfig.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Generator.as" afterPath="$PROJECT_DIR$/src/Generator.as" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Reverb.as" afterPath="$PROJECT_DIR$/src/Reverb.as" />
     </list>
     <ignored path="LD25.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,7 +74,7 @@
       <file leaf-file-name="Main.as" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="150" column="36" selection-start="3537" selection-end="3537" vertical-scroll-proportion="0.5827703">
+            <state line="151" column="61" selection-start="3566" selection-end="3566" vertical-scroll-proportion="0.7929515">
               <folding>
                 <element signature="e#10#35#0" expanded="true" />
               </folding>
@@ -147,7 +148,7 @@
       <file leaf-file-name="Player.as" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Player.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="4" selection-start="1559" selection-end="1674" vertical-scroll-proportion="0.0">
+            <state line="93" column="4" selection-start="1559" selection-end="1559" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -168,6 +169,9 @@
     <FindUsagesManager>
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
+  </component>
+  <component name="Git.Push.Settings">
+    <option name="myUpdateMethod" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -608,8 +612,8 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22330096" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32847896" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22330096" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -660,7 +664,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Last" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of github.com:mcheshkov/LD25&#10;&#10;Conflicts:&#10;&#9;src/Main.as&#10;&#9;src/Play.as&#10;&#9;src/Player.as&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -676,6 +680,7 @@
     <MESSAGE value="Add play" />
     <MESSAGE value="Bad acc maps" />
     <MESSAGE value="Last" />
+    <MESSAGE value="Merge branch 'master' of github.com:mcheshkov/LD25&#10;&#10;Conflicts:&#10;&#9;src/Main.as&#10;&#9;src/Play.as&#10;&#9;src/Player.as&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -711,11 +716,6 @@
     <entry file="file://$PROJECT_DIR$/obj/rtConfig.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="51" selection-start="656" selection-end="656" vertical-scroll-proportion="0.15167095" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sound.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/flex-4.6/frameworks/libs/player/11.1/playerglobal.swc!/library.swf">
@@ -767,7 +767,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="4" selection-start="1559" selection-end="1674" vertical-scroll-proportion="0.0" />
+        <state line="93" column="4" selection-start="1559" selection-end="1559" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Reverb.as">
@@ -777,7 +779,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="36" selection-start="3537" selection-end="3537" vertical-scroll-proportion="0.5827703">
+        <state line="151" column="61" selection-start="3566" selection-end="3566" vertical-scroll-proportion="0.7929515">
           <folding>
             <element signature="e#10#35#0" expanded="true" />
           </folding>
